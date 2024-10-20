@@ -1,0 +1,37 @@
+namespace: dev
+parameters:
+  version: 1
+  tasks:
+    prepare_train_data:
+      py_version: py38
+      framework_version: 1.12
+      instance_type: ml.t3.medium
+      model_name: ncf
+      dataset_name: watch_log
+      dataset_version: 1
+    prepare_inference_data:
+      py_version: py38
+      framework_version: 1.12
+      instance_type: ml.t3.medium
+      model_name: ncf
+      dataset_name: prepared_watch_log
+      dataset_version: 1
+    train:
+      py_version: py38
+      framework_version: 1.12
+      instance_type: ml.m5.large
+      use_spot: True
+      model_name: ncf
+      dataset_name: prepared_watch_log
+      dataset_version: 1
+      epoch: 10
+      learning_rate: 0.1
+    inference:
+      py_version: py38
+      framework_version: 1.12
+      instance_type: ml.t3.medium
+      num_workers: 0
+      model_name: ncf
+      dataset_name: prepared_watch_log
+      dataset_version: 1
+      top_k: 16
