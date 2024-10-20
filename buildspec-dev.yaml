@@ -1,0 +1,24 @@
+version: 0.2
+env:
+  shell: bash
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip install -r requirements.txt
+  build:
+    commands:
+      - chmod +x *.sh
+      - ./test.sh
+reports:
+  arn:aws:codebuild:ap-northeast-2:<ACCOUNT>:report-group/mlops-<유저명>-test-report-group:
+    files:
+      - "test_result.xml"
+    base-directory: "tests"
+    file-format: JUNITXML
+  arn:aws:codebuild:ap-northeast-2:<ACCOUNT>:report-group/mlops-<유저명>-coverage-report-group:
+    files:
+      - "test_coverage_result.xml"
+    base-directory: "tests"
+    file-format: COBERTURAXML
